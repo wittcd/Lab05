@@ -10,6 +10,7 @@ public class Vehicle implements Profitable {
     private double currentWeight;
     private int zipDest;
     private ArrayList<Package> packages;
+    private int maxRange;
 
 
     /**
@@ -17,13 +18,12 @@ public class Vehicle implements Profitable {
      */
     //============================================================================
     public Vehicle() {
-        licensePlate = "";
-        maxWeight = 0;
-        currentWeight = 0;
-        zipDest = 0;
-        packages = new ArrayList<Package>();
+        this.licensePlate = "";
+        this.maxWeight = 0;
+        this.currentWeight = 0;
+        this.zipDest = 0;
+        this.packages = new ArrayList<Package>();
     }
-    
     //============================================================================
 
 
@@ -34,7 +34,13 @@ public class Vehicle implements Profitable {
      * @param maxWeight    maximum weight of vehicle
      */
     //============================================================================
-    //TODO
+    public Vehicle(String licensePlate, int maxWeight) {
+        this.licensePlate = licensePlate;
+        this.maxWeight = maxWeight;
+        this.currentWeight = 0;
+        this.zipDest = 0;
+        this.packages = new ArrayList<Package>();
+    }
     
     //============================================================================
 
@@ -45,7 +51,7 @@ public class Vehicle implements Profitable {
      * @return license plate of this vehicle
      */
     public String getLicensePlate() {
-        //TODO
+        return this.licensePlate;
     }
 
     
@@ -58,7 +64,7 @@ public class Vehicle implements Profitable {
      * @param licensePlate license plate to be updated to
      */
     public void setLicensePlate(String licensePlate) {
-        //TODO
+        this.licensePlate = licensePlate;
     }
     
     
@@ -73,7 +79,7 @@ public class Vehicle implements Profitable {
      * @return the maximum weight that this vehicle can carry
      */
     public double getMaxWeight() {
-        //TODO  
+        return this.maxWeight;
     }
 
     
@@ -86,7 +92,7 @@ public class Vehicle implements Profitable {
      * @param maxWeight max weight to be updated to
      */
     public void setMaxWeight(double maxWeight) {
-        //TODO
+        this.maxWeight = maxWeight;
     }
 
     
@@ -100,7 +106,7 @@ public class Vehicle implements Profitable {
      * @return current weight of all packages inside vehicle
      */
     public double getCurrentWeight() {
-        //TODO
+        return this.currentWeight;
     }
     
     
@@ -114,7 +120,7 @@ public class Vehicle implements Profitable {
      * @return current ZIP code destination of vehicle
      */
     public int getZipDest() {
-        //TODO 
+        return this.zipDest;
     }
     
     
@@ -128,7 +134,7 @@ public class Vehicle implements Profitable {
      * @param zipDest ZIP code destination to be updated to
      */
     public void setZipDest(int zipDest) {
-        //TODO
+        this.zipDest = zipDest;
     }
 
     
@@ -142,7 +148,7 @@ public class Vehicle implements Profitable {
      * @return ArrayList of packages in vehicle
      */
     public ArrayList<Package> getPackages() {
-        //TODO
+        return this.packages;
     }
 
     
@@ -158,7 +164,13 @@ public class Vehicle implements Profitable {
      * @return whether or not it was successful in adding the package
      */
     public boolean addPackage(Package pkg) {
-        //TODO
+        if (this.currentWeight + pkg.getWeight() > this.maxWeight) {
+            return false;
+        } else {
+            packages.add(pkg);
+            this.currentWeight += pkg.getWeight();
+            return true;
+        }
     }
 
     
@@ -170,7 +182,8 @@ public class Vehicle implements Profitable {
      * Clears vehicle of packages and resets its weight to zero
      */
     public void empty() {
-        //TODO
+        this.packages = new ArrayList<Package>();
+        this.currentWeight = 0;
     }
     
     
@@ -185,7 +198,7 @@ public class Vehicle implements Profitable {
      * @return whether or not Vehicle is full
      */
     public boolean isFull() {
-        //TODO
+        return this.currentWeight == this.maxWeight;
     }
 
     
@@ -204,11 +217,37 @@ public class Vehicle implements Profitable {
      * @param warehousePackages List of packages to add from
      */
     public void fill(ArrayList<Package> warehousePackages) {
-        //TODO
+
+        //bubble sort the distances
+        for (int i = 0; i < warehousePackages.size() - 1; i++) {
+            for (int j = 0; j < warehousePackages.size() - i - 1; j++) {
+                if (Math.abs(this.zipDest - warehousePackages.get(j).getDestination().getZipCode())
+                        > Math.abs(this.zipDest - warehousePackages.get(j + 1).getDestination().getZipCode())) {
+                    Package temp = warehousePackages.get(j);
+                    packages.set(j, packages.get(j + 1));
+                    packages.set(j + 1, temp);
+                }
+            }
+        }
+        for (int i = 0; i < warehousePackages.size(); i++) {
+            if (currentWeight + packages.get(i).getWeight() > maxWeight) {
+                break;
+            } else {
+                packages.add(warehousePackages.get(i));
+                this.maxRange = Math.abs(this.zipDest - warehousePackages.get(i).getDestination().getZipCode());
+            }
+        }
+
     }
 
-    
 
+    @Override
+    public double getProfit() {
+       return 0;
+    }
 
-
+    @Override
+    public String report() {
+        return null;
+    }
 }
