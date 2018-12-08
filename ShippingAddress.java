@@ -2,11 +2,11 @@
  * <h1>Shipping Address</h1> Represents a shipping address
  */
 public class ShippingAddress {
-    String name; //e.g. (Lawson Computer Science Building)
-    String address; //e.g. Street Address (305 N University St)
-    String city; // e.g. (West Lafayette)
-    String state; // e.g. IN
-    int zipCode; //e.g. 47907
+    private String name; //e.g. (Lawson Computer Science Building)
+    private String address; //e.g. Street Address (305 N University St)
+    private String city; // e.g. (West Lafayette)
+    private String state; // e.g. IN
+    private int zipCode; //e.g. 47907
 
     public ShippingAddress() {
         name = "";
