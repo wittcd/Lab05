@@ -1,8 +1,15 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
 /**
  * <h1>Database Manager</h1>
  * 
  * Used to locally save and retrieve data.
  */
+
 public class DatabaseManager {
 
     /**
@@ -19,7 +26,34 @@ public class DatabaseManager {
      * @return ArrayList of vehicles
      */
     public static ArrayList<Vehicle> loadVehicles(File file) {
-       //TODO
+        file = file.getAbsoluteFile();
+        if (!(file.exists())) { //      C:/Users/Colin Witt/IdeaProjects/Project05/src/files/VehicleList.csv
+            return new ArrayList<Vehicle>();
+        } else {
+            try {
+                BufferedReader buf = new BufferedReader(new FileReader(file));
+                ArrayList<String> lines = new ArrayList<String>();
+                String line;
+                while ((line = buf.readLine()) != null) {
+                    lines.add(line);
+                }
+                buf.close();
+                ArrayList<Vehicle> v = new ArrayList<Vehicle>();
+                for (int x = 0; x < lines.size(); x++) {
+                    String[] parts = lines.get(x).split(",");
+                    if (parts[0].equals("Truck")) {
+                        v.add(new Truck(parts[1], Double.parseDouble(parts[2])));
+                    } else if (parts[0].equals("Drone")) {
+                        v.add(new Drone(parts[1], Double.parseDouble(parts[2])));
+                    } else if (parts[0].equals("CargoPlane")) {
+                        v.add(new CargoPlane(parts[1], Double.parseDouble(parts[2])));
+                    }
+                }
+                return v;
+            } catch (IOException e) {
+                return new ArrayList<Vehicle>();
+            }
+        }
     }
 
     
@@ -47,7 +81,29 @@ public class DatabaseManager {
      * @return ArrayList of packages
      */
     public static ArrayList<Package> loadPackages(File file) {
-    	//TODO
+        file = file.getAbsoluteFile();
+    	if (!(file.exists())) {
+    	    return new ArrayList<Package>();
+        } else {
+    	    try {
+    	        BufferedReader buf = new BufferedReader(new FileReader(file));
+                ArrayList<String> lines = new ArrayList<String>();
+                String line;
+                while ((line = buf.readLine()) != null) {
+                    lines.add(line);
+                }
+                buf.close();
+                ArrayList<Package> p = new ArrayList<Package>();
+                for (int x = 0; x < lines.size(); x++) {
+                    String[] parts = lines.get(x).split(",");
+                    ShippingAddress sa = new ShippingAddress(parts[4], parts[5], parts[6], parts[7], Integer.parseInt(parts[8]));
+                    p.add(new Package(parts[0], parts[1], Double.parseDouble(parts[2]), Double.parseDouble(parts[3]), sa));
+                }
+                return p;
+            } catch (IOException e) {
+                return new ArrayList<Package>();
+            }
+        }
     }
     
     
@@ -63,7 +119,18 @@ public class DatabaseManager {
      * @return profits from file
      */
     public static double loadProfit(File file) {
-    	//TODO
+    	file = file.getAbsoluteFile();
+        if (!(file.exists())) {
+            return 0;
+        }
+        try {
+            BufferedReader buf = new BufferedReader(new FileReader(file));
+            String p = buf.readLine();
+            buf.close();
+            return Double.parseDouble(p);
+        } catch (IOException e) {
+            return 0;
+        }
     }
 
     
@@ -78,7 +145,18 @@ public class DatabaseManager {
      * @return number of packages shipped from file
      */
     public static int loadPackagesShipped(File file) {
-    	//TODO
+        file = file.getAbsoluteFile();
+        if (!(file.exists())) {
+            return 0;
+        }
+        try {
+            BufferedReader buf = new BufferedReader(new FileReader(file));
+            String p = buf.readLine();
+            buf.close();
+            return Integer.parseInt(p);
+        } catch (IOException e) {
+            return 0;
+        }
     }
 
     
@@ -92,7 +170,21 @@ public class DatabaseManager {
      * @return whether or not it is prime day
      */
     public static boolean loadPrimeDay(File file) {
-    	//TODO
+    	file = file.getAbsoluteFile();
+        if (!(file.exists())) {
+            try {
+                BufferedReader buf = new BufferedReader(new FileReader(file));
+                int pd = Integer.parseInt(buf.readLine());
+                buf.close();
+                if (pd == 0) {
+                    return false;
+                }
+                return true;
+            } catch (IOException e) {
+                return false;
+            }
+        }
+        return false;
     }
 
     
