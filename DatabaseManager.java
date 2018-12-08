@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -172,20 +169,21 @@ public class DatabaseManager {
     public static boolean loadPrimeDay(File file) {
     	file = file.getAbsoluteFile();
         if (!(file.exists())) {
-            try {
-                BufferedReader buf = new BufferedReader(new FileReader(file));
-                int pd = Integer.parseInt(buf.readLine());
-                buf.close();
-                if (pd == 0) {
-                    return false;
-                }
-                return true;
-            } catch (IOException e) {
+            return false;
+        }
+        try {
+            BufferedReader buf = new BufferedReader(new FileReader(file));
+            int pd = Integer.parseInt(buf.readLine());
+            buf.close();
+            if (pd == 0) {
                 return false;
             }
+            return true;
+        } catch (IOException e) {
+            return false;
         }
-        return false;
     }
+
 
     
     
@@ -204,7 +202,29 @@ public class DatabaseManager {
      * @param vehicles ArrayList of vehicles to save to file
      */
     public static void saveVehicles(File file, ArrayList<Vehicle> vehicles) {
-    	//TODO
+    	file = file.getAbsoluteFile();
+    	if (file.exists()) {
+    	    try {
+                FileOutputStream out = new FileOutputStream(file);
+                for(int x = 0; x < vehicles.size(); x++) {
+                    String data = "";
+                    Vehicle v = vehicles.get(x);
+                    if (v instanceof Truck) {
+                        data += "Truck,";
+                    } else if (v instanceof Drone) {
+                        data += "Drone,";
+                    } else if (v instanceof CargoPlane) {
+                        data += "CargoPlane,";
+                    }
+                    data += v.getLicensePlate() + ",";
+                    data += v.getMaxWeight() + "\n";
+                    out.write(data.getBytes());
+                }
+                out.close();
+            } catch (IOException e) {
+
+            }
+        }
     }
 
     
@@ -229,7 +249,30 @@ public class DatabaseManager {
      * @param packages ArrayList of packages to save to file
      */
     public static void savePackages(File file, ArrayList<Package> packages) {
-    	//TODO
+    	file = file.getAbsoluteFile();
+    	if (file.exists()) {
+    	    try {
+    	        FileOutputStream out = new FileOutputStream(file);
+    	        for (int x = 0; x < packages.size(); x++) {
+    	            String data = "";
+    	            Package p = packages.get(x);
+    	            data += p.getID() + ",";
+    	            data += p.getProduct() + ",";
+    	            data += p.getWeight() + ",";
+    	            data += p.getPrice() + ",";
+    	            ShippingAddress sa = p.getDestination();
+    	            data += sa.getName() + ",";
+                    data += sa.getAddress() + ",";
+                    data += sa.getCity() + ",";
+                    data += sa.getState() + ",";
+                    data += sa.getZipCode() + "\n";
+                    out.write(data.getBytes());
+                }
+                out.close();
+            } catch (IOException e) {
+
+            }
+        }
     }
 
     
@@ -243,7 +286,17 @@ public class DatabaseManager {
      */
 
     public static void saveProfit(File file, double profit) {
-    	//TODO
+    	file = file.getAbsoluteFile();
+    	if (file.exists()) {
+    	    try {
+                FileOutputStream out = new FileOutputStream(file);
+                String data = "" + profit;
+                out.write(data.getBytes());
+                out.close();
+            } catch (IOException e) {
+
+            }
+    	}
     }
 
     
@@ -258,7 +311,17 @@ public class DatabaseManager {
      */
 
     public static void savePackagesShipped(File file, int nPackages) {
-    	//TODO
+        file = file.getAbsoluteFile();
+        if (file.exists()) {
+            try {
+                FileOutputStream out = new FileOutputStream(file);
+                String data = "" + nPackages;
+                out.write(data.getBytes());
+                out.close();
+            } catch (IOException e) {
+
+            }
+        }
     }
 
     
@@ -275,6 +338,21 @@ public class DatabaseManager {
      */
 
     public static void savePrimeDay(File file, boolean primeDay) {
-    	//TODO
+        file = file.getAbsoluteFile();
+        if (file.exists()) {
+            try {
+                FileOutputStream out = new FileOutputStream(file);
+                String data;
+                if (primeDay) {
+                    data = "1";
+                } else {
+                    data = "0";
+                }
+                out.write(data.getBytes());
+                out.close();
+            } catch (IOException e) {
+
+            }
+        }
     }
 }
