@@ -1,4 +1,6 @@
+import javax.xml.crypto.Data;
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * <h1>Warehouse</h1>
@@ -19,19 +21,22 @@ public class Warehouse {
      * @param args list of command line arguements
      */
     public static void main(String[] args) {
-    	//TODO
-    	
+
     	//1) load data (vehicle, packages, profits, packages shipped and primeday) from files using DatabaseManager
-    	
-    	
+
+    	ArrayList<Vehicle> vehi = DatabaseManager.loadVehicles(VEHICLE_FILE);
+        ArrayList<Package> pack = DatabaseManager.loadPackages(PACKAGE_FILE);
+        double prof = DatabaseManager.loadProfit(PROFIT_FILE);
+        int sent = DatabaseManager.loadPackagesShipped(N_PACKAGES_FILE);
+        boolean prim = DatabaseManager.loadPrimeDay(PRIME_DAY_FILE);
     	
     	//2) Show menu and handle user inputs
     	
-    	
+    	//TODO
     	
     	//3) save data (vehicle, packages, profits, packages shipped and primeday) to files (overwriting them) using DatabaseManager
     	
-    
+        //TODO
     }
 
 
