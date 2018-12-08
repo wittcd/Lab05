@@ -35,8 +35,12 @@ public class Warehouse {
     	//TODO
     	
     	//3) save data (vehicle, packages, profits, packages shipped and primeday) to files (overwriting them) using DatabaseManager
-    	
-        //TODO
+
+        DatabaseManager.saveVehicles(VEHICLE_FILE, vehi);
+        DatabaseManager.savePackages(PACKAGE_FILE, pack);
+        DatabaseManager.saveProfit(PROFIT_FILE, prof);
+        DatabaseManager.savePackagesShipped(N_PACKAGES_FILE, sent);
+        DatabaseManager.savePrimeDay(PRIME_DAY_FILE, prim);
     }
 
 
