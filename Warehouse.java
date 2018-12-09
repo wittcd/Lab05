@@ -184,7 +184,14 @@ public class Warehouse {
                 }
 
             } else if (choice == 5) {
-                //TODO
+                DecimalFormat df = new DecimalFormat();
+                df.setMaximumFractionDigits(2);
+                df.setMinimumFractionDigits(2);
+                System.out.println("==========Statistics==========\n" +
+                        "Profits:\t\t\t   $" + df.format(prof) + "\n" +
+                        "Packages Shipped:\t\t\t" + sent +"\n" +
+                        "Packages in Warehouse\t\t" + pack.size() + "\n" +
+                        "==============================");
             } else if (choice == 6) {
                 finished = true;
             }
