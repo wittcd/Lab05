@@ -12,7 +12,9 @@ public class Truck extends Vehicle {
      * Default Constructor
      */
     //============================================================================
-    //TODO
+    public Truck() {
+        super();
+    }
     
     //============================================================================
 
@@ -23,7 +25,9 @@ public class Truck extends Vehicle {
      * @param maxWeight    maximum weight that the vehicle can hold
      */
     //============================================================================
-    //TODO
+    public Truck(String licensePlate, double maxWeight) {
+        super(licensePlate, maxWeight);
+    }
     
     //============================================================================
 
@@ -40,8 +44,15 @@ public class Truck extends Vehicle {
      */
     @Override
     public double getProfit() {
-        //TODO
-    	
+        double total = 0;
+        ArrayList<Package> array = this.getPackages();
+        for (int i = 0; i < array.size(); i++) {
+            total += array.get(i).getPrice();
+        }
+        System.out.println("max range is " + this.getMaxRange());
+        return total - (GAS_RATE * this.getMaxRange());
+
+
     }
 
     /**
@@ -58,8 +69,17 @@ public class Truck extends Vehicle {
      */
     @Override
     public String report() {
-        //TODO
-    	
+        ArrayList<Package> arr = this.getPackages();
+        String addresses = "";
+        for (int i = 0; i < arr.size(); i++) {
+            addresses = addresses + arr.get(i).shippingLabel();
+        }
+        return  "==========Truck Report==========\n" + "License Plate No.: " + this.getLicensePlate() + "\n"
+                + "Destination: " + this.getZipDest() + "\n" + "Weight Load: "
+                + String.format("%.2f", this.getCurrentWeight()) + "/"
+                + String.format("%.2f", this.getMaxWeight()) + "\n" +
+                "Net Profit: " +  "$" + String.format("%.2f", this.getProfit()) +
+                "\n" + "=====Shipping Labels=====\n" + addresses + "==============================";
     }
 
 
