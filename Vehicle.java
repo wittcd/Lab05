@@ -10,7 +10,7 @@ public class Vehicle implements Profitable {
     private double currentWeight;
     private int zipDest;
     private ArrayList<Package> packages;
-    private int maxRange;
+    private double maxRange;
 
 
     /**
@@ -116,7 +116,11 @@ public class Vehicle implements Profitable {
      * @return current max range of package inside vehicle
      */
     public double getMaxRange() {
-        return maxRange;
+        return this.maxRange;
+    }
+    
+    public void setMaxRange(double maxRange) {
+        this.maxRange = maxRange;
     }
 
 
