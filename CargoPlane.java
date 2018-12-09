@@ -11,7 +11,9 @@ public class CargoPlane extends Vehicle {
      * Default Constructor
      */
     //============================================================================
-    //TODO
+    public CargoPlane() {
+        super();
+    }
     
     //============================================================================
 
@@ -22,7 +24,9 @@ public class CargoPlane extends Vehicle {
      * @param maxWeight    maximum weight that the vehicle can hold
      */
     //============================================================================
-    //TODO
+    public CargoPlane(String licensePlate, double maxWeight) {
+        super(licensePlate, maxWeight);
+    }
     
     //============================================================================
 
@@ -34,7 +38,29 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public void fill(ArrayList<Package> warehousePackages) {
-    	//TODO
+        int incrementMax = 0;
+        //bubble sort the distances
+        for (int i = 0; i < warehousePackages.size() - 1; i++) {
+            for (int j = 0; j < warehousePackages.size() - i - 1; j++) {
+                if (Math.abs(this.getZipDest() - warehousePackages.get(j).getDestination().getZipCode())
+                        > Math.abs(this.getZipDest() - warehousePackages.get(j + 1).getDestination().getZipCode())) {
+                    Package temp = warehousePackages.get(j);
+                    warehousePackages.set(j, warehousePackages.get(j + 1));
+                    warehousePackages.set(j + 1, temp);
+                }
+            }
+        }
+        for (int i = 0; i < warehousePackages.size(); i++) {
+            if (i % 10 == 1) {
+                incrementMax += 10;
+            }
+            if (this.getCurrentWeight() + warehousePackages.get(i).getWeight() > this.getMaxWeight()) {
+                break;
+            } else {
+                addPackage(warehousePackages.get(i));
+                this.setMaxRange(incrementMax);
+            }
+        }
         
     }
 
@@ -52,7 +78,12 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public double getProfit() {
-    	//TODO
+    	double total = 0;
+    	ArrayList<Package> arr = this.getPackages();
+    	for (int i = 0; i < arr.size(); i++) {
+    	    total += arr.get(i).getPrice();
+        }
+        return total - (this.getMaxRange() * GAS_RATE);
         
     }
 
@@ -70,7 +101,17 @@ public class CargoPlane extends Vehicle {
      */
     @Override
     public String report() {
-    	//TODO
+        ArrayList<Package> arr = this.getPackages();
+        String addresses = "";
+        for (int i = 0; i < arr.size(); i++) {
+            addresses = addresses + arr.get(i).shippingLabel();
+        }
+        return  "==========Cargo Plane Report==========\n" + "License Plate No.: " + this.getLicensePlate() + "\n"
+                + "Destination: " + this.getZipDest() + "\n" + "Weight Load: "
+                + String.format("%.2f", this.getCurrentWeight()) + "/"
+                + String.format("%.2f", this.getMaxWeight()) + "\n" +
+                "Net Profit: " +  "$" + String.format("%.2f", this.getProfit()) +
+                "\n" + "=====Shipping Labels=====\n" + addresses + "==============================";
        
     }
 
