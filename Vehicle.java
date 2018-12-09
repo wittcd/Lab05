@@ -34,7 +34,7 @@ public class Vehicle implements Profitable {
      * @param maxWeight    maximum weight of vehicle
      */
     //============================================================================
-    public Vehicle(String licensePlate, int maxWeight) {
+    public Vehicle(String licensePlate, double maxWeight) {
         this.licensePlate = licensePlate;
         this.maxWeight = maxWeight;
         this.currentWeight = 0;
@@ -108,11 +108,20 @@ public class Vehicle implements Profitable {
     public double getCurrentWeight() {
         return this.currentWeight;
     }
-    
-    
-    
-    
-    
+
+
+    /**
+     * Returns the max range of the vehicle
+     *
+     * @return current max range of package inside vehicle
+     */
+    public double getMaxRange() {
+        return maxRange;
+    }
+
+
+
+
 
     /**
      * Returns the current ZIP code desitnation of the vehicle
@@ -184,6 +193,7 @@ public class Vehicle implements Profitable {
     public void empty() {
         this.packages = new ArrayList<Package>();
         this.currentWeight = 0;
+        this.maxRange = 0;
     }
     
     
@@ -224,16 +234,16 @@ public class Vehicle implements Profitable {
                 if (Math.abs(this.zipDest - warehousePackages.get(j).getDestination().getZipCode())
                         > Math.abs(this.zipDest - warehousePackages.get(j + 1).getDestination().getZipCode())) {
                     Package temp = warehousePackages.get(j);
-                    packages.set(j, packages.get(j + 1));
-                    packages.set(j + 1, temp);
+                    warehousePackages.set(j, warehousePackages.get(j + 1));
+                    warehousePackages.set(j + 1, temp);
                 }
             }
         }
         for (int i = 0; i < warehousePackages.size(); i++) {
-            if (currentWeight + packages.get(i).getWeight() > maxWeight) {
+            if (currentWeight + warehousePackages.get(i).getWeight() > maxWeight) {
                 break;
             } else {
-                packages.add(warehousePackages.get(i));
+                addPackage(warehousePackages.get(i));
                 this.maxRange = Math.abs(this.zipDest - warehousePackages.get(i).getDestination().getZipCode());
             }
         }
