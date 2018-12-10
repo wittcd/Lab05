@@ -1,4 +1,5 @@
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -129,19 +130,169 @@ public class Warehouse {
                     input.nextLine();
                     vehiChoice = input.nextLine();
 
-                    switch (vehiChoice) {
-                        case "1" :
+                     if (vehiChoice.equals("1")) {
+                         int selected = 0;
+                         boolean exists = false;
+                         for (int i = 0; i < vehi.size(); i++) {
+                             if (vehi.get(i) instanceof Truck) {
+                                 exists = true;
+                                 if (selected == 0) {
+                                     selected = i;
+                                 }
+                             }
+                         }
+                         if (exists == false) {
+                             System.out.println("Error: No vehicles of selected type are available.");
+                         } else {
+                             System.out.println("ZIP Code Options:\n" +
+                                     "1) Send to first ZIP Code\n" +
+                                     "2) Send to mode of ZIP Codes");
+                             String zipChoice;
+                             zipChoice = input.nextLine();
+
+                             if (zipChoice.equals("1")) {
+                                 vehi.get(selected).setZipDest(pack.get(0).getDestination().getZipCode());
+                                 vehi.get(selected).fill(pack);
+                                 System.out.println(vehi.get(selected).report());
+                                 prof += vehi.get(selected).getProfit();
+                                 sent += vehi.get(selected).getPackages().size();
+
+                                 vehi.get(selected).empty();
+
+                             } else if (zipChoice.equals("2")) {
+                                 int max = 0;
+                                 int chosen = 0;
+                                 for (int i = 0; i < pack.size(); i++) {
+                                     int moreTemp = 0;
+                                     for (int j = 0; j < pack.size(); j++) {
+                                         if (pack.get(j).getDestination().getZipCode() ==
+                                                 pack.get(i).getDestination().getZipCode()) {
+                                             moreTemp++;
+                                         }
+                                     }
+                                     if (moreTemp > max) {
+                                         max = moreTemp;
+                                         chosen = i;
+                                     }
+
+                                 }
+                                 vehi.get(selected).setZipDest(pack.get(chosen).getDestination().getZipCode());
+                                 vehi.get(selected).fill(pack);
+                                 System.out.println(vehi.get(selected).getPackages().size());
+                                 System.out.println(vehi.get(selected).report());
+                                 prof = prof + vehi.get(selected).getProfit();
+                                 sent = sent + vehi.get(selected).getPackages().size();
+                                 vehi.get(selected).empty();
+
+                             }
+                         }
+                     } else if (vehiChoice.equals("2")) {
+                         int selected = 0;
+                         boolean exists = false;
+                         for (int i = 0; i < vehi.size(); i++) {
+                             if (vehi.get(i) instanceof Drone) {
+                                 exists = true;
+                                 if (selected == 0) {
+                                     selected = i;
+                                 }
+                             }
+                         }
+                         if (exists == false) {
+                             System.out.println("Error: No vehicles of selected type are available.");
+                         } else {
+                             System.out.println("ZIP Code Options:\n" +
+                                     "1) Send to first ZIP Code\n" +
+                                     "2) Send to mode of ZIP Codes");
+                             String zipChoice;
+                             zipChoice = input.nextLine();
+
+                             if (zipChoice.equals("1")) {
+                                 vehi.get(selected).setZipDest(pack.get(0).getDestination().getZipCode());
+                                 vehi.get(selected).fill(pack);
+                                 System.out.println(vehi.get(selected).report());
+                                 prof += vehi.get(selected).getProfit();
+                                 sent += vehi.get(selected).getPackages().size();
+                                 vehi.get(selected).empty();
+                             } else if (zipChoice.equals("2")) {
+                                 int max = 0;
+                                 int chosen = 0;
+                                 for (int i = 0; i < pack.size(); i++) {
+                                     int moreTemp = 0;
+                                     for (int j = 0; j < pack.size(); j++) {
+                                         if (pack.get(j).getDestination().getZipCode() ==
+                                                 pack.get(i).getDestination().getZipCode()) {
+                                             moreTemp++;
+                                         }
+                                     }
+                                     if (moreTemp > max) {
+                                         max = moreTemp;
+                                         chosen = i;
+                                     }
+                                 }
+                                 vehi.get(selected).setZipDest(pack.get(chosen).getDestination().getZipCode());
+                                 vehi.get(selected).fill(pack);
+                                 System.out.println(vehi.get(selected).report());
+                                 prof += vehi.get(selected).getProfit();
+                                 sent += vehi.get(selected).getPackages().size();
+                                 vehi.get(selected).empty();
+
+                             }
+                         }
+                     } else if (vehiChoice.equals("3")) {
+                         int selected = 0;
+                         boolean exists = false;
+                         for (int i = 0; i < vehi.size(); i++) {
+                             if (vehi.get(i) instanceof CargoPlane) {
+                                 exists = true;
+                                 if (selected == 0) {
+                                     selected = i;
+                                 }
+                             }
+                         }
+                         if (exists == false) {
+                             System.out.println("Error: No vehicles of selected type are available.");
+                         } else {
+                             System.out.println("ZIP Code Options:\n" +
+                                     "1) Send to first ZIP Code\n" +
+                                     "2) Send to mode of ZIP Codes");
+                             String zipChoice;
+                             zipChoice = input.nextLine();
+
+                             if (zipChoice.equals("1")) {
+                                 vehi.get(selected).setZipDest(pack.get(0).getDestination().getZipCode());
+                                 vehi.get(selected).fill(pack);
+                                 System.out.println(vehi.get(selected).report());
+                                 prof += vehi.get(selected).getProfit();
+                                 sent += vehi.get(selected).getPackages().size();
+                                 vehi.get(selected).empty();
+                             } else if (zipChoice.equals("2")) {
+                                 int max = 0;
+                                 int chosen = 0;
+                                 for (int i = 0; i < pack.size(); i++) {
+                                     int moreTemp = 0;
+                                     for (int j = 0; j < pack.size(); j++) {
+                                         if (pack.get(j).getDestination().getZipCode() ==
+                                                 pack.get(i).getDestination().getZipCode()) {
+                                             moreTemp++;
+                                         }
+                                     }
+                                     if (moreTemp > max) {
+                                         max = moreTemp;
+                                         chosen = i;
+                                     }
+                                 }
+                                 vehi.get(selected).setZipDest(pack.get(chosen).getDestination().getZipCode());
+                                 vehi.get(selected).fill(pack);
+                                 System.out.println(vehi.get(selected).report());
+                                 prof += vehi.get(selected).getProfit();
+                                 sent += vehi.get(selected).getPackages().size();
+                                 vehi.get(selected).empty();
+
+                             }
+                         }
+                     } else if (vehiChoice.equals("4")) {
                             int selected = 0;
-                            boolean exists = false;
-                            for (int i = 0; i < vehi.size(); i++) {
-                                if (vehi.get(i).type() == "Truck") {
-                                    exists = true;
-                                    if (selected == 0) {
-                                        selected = i;
-                                    }
-                                }
-                            }
-                            if (exists == false) {
+                            if (vehi.size() == 0) {
                                 System.out.println("Error: No vehicles of selected type are available.");
                             } else {
                                 System.out.println("ZIP Code Options:\n" +
@@ -154,48 +305,47 @@ public class Warehouse {
                                     vehi.get(selected).setZipDest(pack.get(0).getDestination().getZipCode());
                                     vehi.get(selected).fill(pack);
                                     System.out.println(vehi.get(selected).report());
+                                    prof += vehi.get(selected).getProfit();
+                                    sent += vehi.get(selected).getPackages().size();
+                                    vehi.get(selected).empty();
                                 } else if (zipChoice.equals("2")) {
                                     int max = 0;
-                                    int temp = 0;
                                     int chosen = 0;
                                     for (int i = 0; i < pack.size(); i++) {
                                         int moreTemp = 0;
-                                        temp = pack.get(i).getDestination().getZipCode();
                                         for (int j = 0; j < pack.size(); j++) {
-                                            if (pack.get(j).getDestination().getZipCode() == temp) {
+                                            if (pack.get(j).getDestination().getZipCode() ==
+                                                    pack.get(i).getDestination().getZipCode()) {
                                                 moreTemp++;
                                             }
                                         }
-                                        if (moreTemp > temp) {
+                                        if (moreTemp > max) {
                                             max = moreTemp;
                                             chosen = i;
                                         }
-                                        vehi.get(selected).setZipDest(pack.get(chosen).getDestination().getZipCode());
-                                        vehi.get(selected).fill(pack);
-                                        System.out.println("hi");
-                                        System.out.println(vehi.get(selected).report());
                                     }
-                                } else {
-                                    System.out.println("hi");
+                                    vehi.get(selected).setZipDest(pack.get(chosen).getDestination().getZipCode());
+                                    vehi.get(selected).fill(pack);
+                                    System.out.println(vehi.get(selected).report());
+                                    prof += vehi.get(selected).getProfit();
+                                    sent += vehi.get(selected).getPackages().size();
+                                    vehi.get(selected).empty();
+
                                 }
-                        }
-                        
+                            }
+
                     }
                 }
 
             } else if (choice == 5) {
-                DecimalFormat df = new DecimalFormat();
-                df.setMaximumFractionDigits(2);
-                df.setMinimumFractionDigits(2);
-                System.out.println("==========Statistics==========\n" +
-                        "Profits:\t\t\t   $" + df.format(prof) + "\n" +
-                        "Packages Shipped:\t\t\t" + sent +"\n" +
-                        "Packages in Warehouse\t\t" + pack.size() + "\n" +
-                        "==============================");
+                printStatisticsReport(prof, sent, pack.size());
             } else if (choice == 6) {
                 finished = true;
             }
         }
+
+
+
 
         //3) save data (vehicle, packages, profits, packages shipped and primeday) to files (overwriting them) using DatabaseManager
 
@@ -204,6 +354,17 @@ public class Warehouse {
         DatabaseManager.saveProfit(PROFIT_FILE, prof);
         DatabaseManager.savePackagesShipped(N_PACKAGES_FILE, sent);
         DatabaseManager.savePrimeDay(PRIME_DAY_FILE, prime);
+    }
+
+    public static void printStatisticsReport(double profits, int packagesShipped, int numberOfPackages) {
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        df.setMinimumFractionDigits(2);
+        System.out.println("==========Statistics==========\n" +
+                "Profits:\t\t\t   $" + df.format(profits) + "\n" +
+                "Packages Shipped:\t\t\t" + packagesShipped + "\n" +
+                "Packages in Warehouse\t\t" + numberOfPackages + "\n" +
+                "==============================");
     }
 
 
