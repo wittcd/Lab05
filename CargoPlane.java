@@ -54,10 +54,11 @@ public class CargoPlane extends Vehicle {
             if (i % 10 == 1) {
                 incrementMax += 10;
             }
-            if (this.getCurrentWeight() + warehousePackages.get(i).getWeight() > this.getMaxWeight()) {
+            if (this.getCurrentWeight() + warehousePackages.get(0).getWeight() > this.getMaxWeight()) {
                 break;
             } else {
-                addPackage(warehousePackages.get(i));
+                addPackage(warehousePackages.get(0));
+                warehousePackages.remove(0);
                 this.setMaxRange(incrementMax);
             }
         }
@@ -113,6 +114,11 @@ public class CargoPlane extends Vehicle {
                 "Net Profit: " +  "$" + String.format("%.2f", this.getProfit()) +
                 "\n" + "=====Shipping Labels=====\n" + addresses + "==============================";
        
+    }
+
+    @Override
+    public String type() {
+        return "CargoPlane";
     }
 
    
