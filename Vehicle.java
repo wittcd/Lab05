@@ -118,7 +118,7 @@ public class Vehicle implements Profitable {
     public double getMaxRange() {
         return this.maxRange;
     }
-    
+
     public void setMaxRange(double maxRange) {
         this.maxRange = maxRange;
     }
@@ -244,11 +244,12 @@ public class Vehicle implements Profitable {
             }
         }
         for (int i = 0; i < warehousePackages.size(); i++) {
-            if (currentWeight + warehousePackages.get(i).getWeight() > maxWeight) {
+            if (currentWeight + warehousePackages.get(0).getWeight() > maxWeight) {
                 break;
             } else {
-                addPackage(warehousePackages.get(i));
-                this.maxRange = Math.abs(this.zipDest - warehousePackages.get(i).getDestination().getZipCode());
+                addPackage(warehousePackages.get(0));
+                warehousePackages.remove(0);
+                this.maxRange = Math.abs(this.zipDest - warehousePackages.get(0).getDestination().getZipCode());
             }
         }
 
@@ -262,6 +263,10 @@ public class Vehicle implements Profitable {
 
     @Override
     public String report() {
+        return null;
+    }
+
+    public String type() {
         return null;
     }
 }
