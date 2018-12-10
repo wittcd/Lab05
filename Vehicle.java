@@ -29,7 +29,7 @@ public class Vehicle implements Profitable {
 
     /**
      * Constructor
-     * 
+     *
      * @param licensePlate license plate of vehicle
      * @param maxWeight    maximum weight of vehicle
      */
@@ -41,68 +41,68 @@ public class Vehicle implements Profitable {
         this.zipDest = 0;
         this.packages = new ArrayList<Package>();
     }
-    
+
     //============================================================================
 
-    
+
     /**
      * Returns the license plate of this vehicle
-     * 
+     *
      * @return license plate of this vehicle
      */
     public String getLicensePlate() {
         return this.licensePlate;
     }
 
-    
-    
-    
-    
+
+
+
+
     /**
      * Updates the license plate of vehicle
-     * 
+     *
      * @param licensePlate license plate to be updated to
      */
     public void setLicensePlate(String licensePlate) {
         this.licensePlate = licensePlate;
     }
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
 
     /**
      * Returns the maximum weight this vehicle can carry
-     * 
+     *
      * @return the maximum weight that this vehicle can carry
      */
     public double getMaxWeight() {
         return this.maxWeight;
     }
 
-    
-    
-    
-    
+
+
+
+
     /**
      * Updates the maximum weight of this vehicle
-     * 
+     *
      * @param maxWeight max weight to be updated to
      */
     public void setMaxWeight(double maxWeight) {
         this.maxWeight = maxWeight;
     }
 
-    
-    
-    
-    
-    
+
+
+
+
+
     /**
      * Returns the current weight of all packages inside vehicle
-     * 
+     *
      * @return current weight of all packages inside vehicle
      */
     public double getCurrentWeight() {
@@ -129,50 +129,50 @@ public class Vehicle implements Profitable {
 
     /**
      * Returns the current ZIP code desitnation of the vehicle
-     * 
+     *
      * @return current ZIP code destination of vehicle
      */
     public int getZipDest() {
         return this.zipDest;
     }
-    
-    
-    
-    
-    
+
+
+
+
+
 
     /**
      * Updates the ZIP code destination of vehicle
-     * 
+     *
      * @param zipDest ZIP code destination to be updated to
      */
     public void setZipDest(int zipDest) {
         this.zipDest = zipDest;
     }
 
-    
-    
-    
-    
-    
+
+
+
+
+
     /**
      * Returns ArrayList of packages currently in Vehicle
-     * 
+     *
      * @return ArrayList of packages in vehicle
      */
     public ArrayList<Package> getPackages() {
         return this.packages;
     }
 
-    
-    
-    
-    
-    
+
+
+
+
+
     /**
      * Adds Package to the vehicle only if has room to carry it (adding it would not
      * cause it to go over its maximum carry weight).
-     * 
+     *
      * @param pkg Package to add
      * @return whether or not it was successful in adding the package
      */
@@ -186,11 +186,11 @@ public class Vehicle implements Profitable {
         }
     }
 
-    
-    
-    
-    
-    
+
+
+
+
+
     /**
      * Clears vehicle of packages and resets its weight to zero
      */
@@ -199,27 +199,27 @@ public class Vehicle implements Profitable {
         this.currentWeight = 0;
         this.maxRange = 0;
     }
-    
-    
-    
-    
-    
+
+
+
+
+
 
     /**
      * Returns true if the Vehicle has reached its maximum weight load, false
      * otherwise.
-     * 
+     *
      * @return whether or not Vehicle is full
      */
     public boolean isFull() {
         return this.currentWeight == this.maxWeight;
     }
 
-    
-    
-    
-    
-    
+
+
+
+
+
     /**
      * Fills vehicle with packages with preference of date added and range of its
      * destination zip code. It will iterate over the packages intially at a range
@@ -227,38 +227,34 @@ public class Vehicle implements Profitable {
      * over its maximum weight. The amount the range increases is dependent on the
      * vehicle that is using this. This range it increases by after each iteration
      * is by default one.
-     * 
+     *
      * @param warehousePackages List of packages to add from
      */
     public void fill(ArrayList<Package> warehousePackages) {
-
-        //bubble sort the distances
-        for (int i = 0; i < warehousePackages.size() - 1; i++) {
-            for (int j = 0; j < warehousePackages.size() - i - 1; j++) {
-                if (Math.abs(this.zipDest - warehousePackages.get(j).getDestination().getZipCode())
-                        > Math.abs(this.zipDest - warehousePackages.get(j + 1).getDestination().getZipCode())) {
-                    Package temp = warehousePackages.get(j);
-                    warehousePackages.set(j, warehousePackages.get(j + 1));
-                    warehousePackages.set(j + 1, temp);
+        int bigRange = 0;
+        for (int x = 0; x < warehousePackages.size(); x++) {
+            if (warehousePackages.get(x).getDestination().getZipCode() - this.zipDest > bigRange) {
+                bigRange = warehousePackages.get(x).getDestination().getZipCode() - this.zipDest;
+            }
+        }
+        int range = 0;
+        while (range <= bigRange) {
+            for (int x = 0; x < warehousePackages.size(); x++) {
+                if (warehousePackages.get(x).getWeight() + this.currentWeight <= this.maxWeight
+                && (warehousePackages.get(x).getDestination().getZipCode() == this.zipDest + range
+            || warehousePackages.get(x).getDestination().getZipCode() == this.zipDest - range)) {
+                    addPackage(warehousePackages.get(x));
                 }
             }
+            range ++;
         }
-        for (int i = 0; i < warehousePackages.size(); i++) {
-            if (currentWeight + warehousePackages.get(0).getWeight() > maxWeight) {
-                break;
-            } else {
-                addPackage(warehousePackages.get(0));
-                warehousePackages.remove(0);
-                this.maxRange = Math.abs(this.zipDest - warehousePackages.get(0).getDestination().getZipCode());
-            }
-        }
-
+        this.maxRange = bigRange;
     }
 
 
     @Override
     public double getProfit() {
-       return 0;
+        return 0;
     }
 
     @Override
